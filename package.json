@@ -1,0 +1,14 @@
+{
+  "name": "crux-origins",
+  "version": "1.0.0",
+  "description": "",
+  "main": "getData.js",
+  "scripts": {
+    "start": "node crux_to_csv.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "follow-redirects": "^1.14.6"
+  }
+}
