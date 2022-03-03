@@ -3,6 +3,7 @@ const fs = require("fs");
 
 const origins = JSON.parse(fs.readFileSync("./origins.json"));
 const noData_origins = [];
+const SEPARATOR = process.env.SEPARATOR || "\t";
 
 const options = {
   method: "POST",
@@ -38,7 +39,7 @@ function newReq(origin) {
               .density).toFixed(4),
             (record.key.origin,
             record.metrics.first_input_delay.histogram[0].density).toFixed(4),
-          ].join("\t")
+          ].join(SEPARATOR)
         );
       } else {
         noData_origins.push(origin);
@@ -73,7 +74,7 @@ if (!origins || origins.length == 0) {
 }
 
 if (origins && origins.length > 0) {
-  console.log("ORIGIN\tPercentage of good LCP\tPercentage of good CLS (%)\tPercentage of good FID (%)");
+  console.log(`ORIGIN${SEPARATOR}Percentage of good LCP${SEPARATOR}Percentage of good CLS (%)${SEPARATOR}Percentage of good FID (%)`);
   for (let origin of origins) {
     const req = newReq(origin);
     const postData = newPostData(origin);
