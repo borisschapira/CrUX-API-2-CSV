@@ -32,14 +32,17 @@ function newReq(origin) {
           [
             record.key.origin,
             record.metrics.largest_contentful_paint.histogram[0].density.toFixed(
-              4
+              4,
             ),
             (record.key.origin,
             record.metrics.cumulative_layout_shift.histogram[0]
               .density).toFixed(4),
             (record.key.origin,
             record.metrics.first_input_delay.histogram[0].density).toFixed(4),
-          ].join(SEPARATOR)
+            (record.key.origin,
+            record.metrics.interaction_to_next_paint.histogram[0]
+              .density).toFixed(4),
+          ].join(SEPARATOR),
         );
       } else {
         noData_origins.push(origin);
@@ -58,6 +61,7 @@ function newPostData(origin) {
       "largest_contentful_paint",
       "cumulative_layout_shift",
       "first_input_delay",
+      "interaction_to_next_paint"
     ],
     origin: `https://${origin}`,
   });
@@ -74,7 +78,9 @@ if (!origins || origins.length == 0) {
 }
 
 if (origins && origins.length > 0) {
-  console.log(`ORIGIN${SEPARATOR}Percentage of good LCP${SEPARATOR}Percentage of good CLS (%)${SEPARATOR}Percentage of good FID (%)`);
+  console.log(
+    `ORIGIN${SEPARATOR}Percentage of good LCP${SEPARATOR}Percentage of good CLS (%)${SEPARATOR}Percentage of good FID (%)${SEPARATOR}Percentage of good INP (%)`,
+  );
   for (let origin of origins) {
     const req = newReq(origin);
     const postData = newPostData(origin);
